@@ -15,9 +15,13 @@ public class Inventario : MonoBehaviour
     [SerializeField]
     public Image imagemArrastando;
 
-    void Start()
+    private void Awake()
     {
         Instance = this;
+    }
+
+    void Start()
+    {        
         Slots = GetSlots();
         Cursor.visible = true;
         gameObject.SetActive(false);

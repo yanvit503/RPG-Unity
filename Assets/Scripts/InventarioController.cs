@@ -2,16 +2,13 @@ using UnityEngine;
 
 public class InventarioController : MonoBehaviour
 {
-    bool aberto;
+    bool aberto = true;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (!aberto)
-                Inventario.Instance.gameObject.SetActive(true);
-            else
-                Inventario.Instance.gameObject.SetActive(false);
+            InventarioUIManager.Instance.AbrirInventario(aberto);
             aberto = !aberto;
         }
     }
