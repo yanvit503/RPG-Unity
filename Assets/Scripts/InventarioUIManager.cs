@@ -17,6 +17,7 @@ public class InventarioUIManager : MonoBehaviour
     void Start()
     {
         Instance = this;
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame

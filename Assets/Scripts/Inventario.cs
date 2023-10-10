@@ -24,7 +24,6 @@ public class Inventario : MonoBehaviour
     {        
         Slots = GetSlots();
         Cursor.visible = true;
-        gameObject.SetActive(false);
     }
 
     List<SlotInventario> GetSlots()
