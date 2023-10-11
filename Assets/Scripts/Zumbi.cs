@@ -1,17 +1,17 @@
 using Assets.Scripts;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Zumbi : MonoBehaviour, IDanificavel, IInimigo
 {
-    
+
     public BarraVida BarraVida;
     Animator animator;
+    InimigoAI AI;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        AI = GetComponent<InimigoAI>();
     }
 
     // Update is called once per frame
@@ -19,6 +19,8 @@ public class Zumbi : MonoBehaviour, IDanificavel, IInimigo
     {
         if ((Input.GetKeyDown(KeyCode.F)))
             Atacar();
+
+        animator.SetFloat("DistanciaPlayer",AI.DistanciaPlayer);
     }
 
     public void Dano(int quantidade)
@@ -34,5 +36,18 @@ public class Zumbi : MonoBehaviour, IDanificavel, IInimigo
     public void Atacar()
     {
         animator.SetTrigger("Atacar");
+        animator.SetBool("Atacando", true);
+    }
+
+    public void Perseguir()
+    {
+        animator.SetBool("Perseguindo", true);
+        animator.SetTrigger("Perseguir");
+    }
+
+    public void PararAtacar()
+    {
+        animator.SetTrigger("PararAtacar");
+        animator.SetBool("Atacando", false);
     }
 }

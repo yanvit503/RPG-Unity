@@ -8,6 +8,8 @@ namespace Assets.Scripts
 {
     internal interface IInimigo
     {
+        void Perseguir();
         void Atacar();
+        void PararAtacar();
     }
 }
