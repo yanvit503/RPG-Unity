@@ -24,12 +24,7 @@ public class BarraVida : MonoBehaviour
         QuantidadeVida -= qnt;
 
         if (QuantidadeVida <= 0)
-        { 
             danificavel.Destruir();
-            return;
-        }
-
-        danificavel.Dano(qnt);
     }
 
     public void Curar(int qnt)
@@ -52,14 +47,14 @@ public class BarraVida : MonoBehaviour
 
     void ExibeBarra()
     {
-        if(QuantidadeVida == QuantidadeVidaMaxima || QuantidadeVida <= 0)
-        {
-            UIobj.transform.GetChild(0).gameObject.SetActive(false);
-            return;
-        }
-
         if(UIWorldSpace)
         {
+            if (QuantidadeVida == QuantidadeVidaMaxima || QuantidadeVida <= 0 && UIWorldSpace)
+            {
+                UIobj.transform.GetChild(0).gameObject.SetActive(false);
+                return;
+            }
+
             var dist = (transform.position - Player.instance.transform.position).magnitude;
             UIobj.transform.GetChild(0).gameObject.SetActive(dist < 15 ? true : false);
         }

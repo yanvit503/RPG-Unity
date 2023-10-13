@@ -30,6 +30,14 @@ public class InimigoAI : MonoBehaviour
     {
         if (Vivo)
         {
+            CalculaDistancia();
+
+            if (!Perseguindo && DistanciaPlayer < 5)
+            {
+                Perseguindo = true;
+                inimigo.Perseguir();
+            }
+
             if (Perseguindo && !Atacando)
                 agent.SetDestination(player.transform.position);
 

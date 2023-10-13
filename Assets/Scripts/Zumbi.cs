@@ -43,9 +43,6 @@ public class Zumbi : MonoBehaviour, IDanificavel, IInimigo
             audioSource.Play();
             clipQueue.Enqueue(audioSource.clip);
         }
-
-        if (Input.GetKeyDown(KeyCode.F))
-            Dano(40);
     }
 
     public void Dano(int quantidade)
@@ -55,10 +52,13 @@ public class Zumbi : MonoBehaviour, IDanificavel, IInimigo
 
     public void Destruir()
     {
-        audioSource.Stop();
-        AI.PararPerseguir();
-        AI.Vivo = false;
-        animator.SetTrigger("Morrer");
+        if (AI.Vivo)
+        {
+            audioSource.Stop();
+            AI.PararPerseguir();
+            AI.Vivo = false;
+            animator.SetTrigger("Morrer"); 
+        }
     }
 
     public void Atacar()
@@ -67,7 +67,7 @@ public class Zumbi : MonoBehaviour, IDanificavel, IInimigo
         animator.SetTrigger("Atacar");
         animator.SetBool("Atacando", true);
 
-        player.gameObject.GetComponent<BarraVida>().Dano(QuantidadeDano);
+        player.gameObject.GetComponent<IDanificavel>().Dano(QuantidadeDano);
     }
 
     public void Perseguir()

@@ -10,6 +10,7 @@ namespace Assets.Scripts
 
         public void Dano(int quantidade)
         {
+            GetComponent<BarraVida>().Dano(quantidade);
         }
 
         public void Destruir()
