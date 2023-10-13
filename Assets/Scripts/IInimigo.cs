@@ -11,5 +11,6 @@ namespace Assets.Scripts
         void Perseguir();
         void Atacar();
         void PararAtacar();
+        void PararPerseguir();
     }
 }

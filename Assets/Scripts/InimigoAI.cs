@@ -2,6 +2,7 @@ using Assets.Scripts;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public class InimigoAI : MonoBehaviour
 {
@@ -12,8 +13,10 @@ public class InimigoAI : MonoBehaviour
 
     public float DistanciaAtaque;
     public float DistanciaPlayer = 0;
+    public float IntervaloAtaque = 2;
     public bool Atacando;
     public bool Perseguindo;
+    public bool Vivo = true;
 
     void Start()
     {
@@ -25,45 +28,61 @@ public class InimigoAI : MonoBehaviour
 
     private void Update()
     {
-        if (Perseguindo)
-        { 
-            agent.SetDestination(player.transform.position);
-            //OlharAlvo();
-        }
-
-        DistanciaPlayer = Vector3.Distance(player.transform.position, transform.position);
-        Debug.Log(DistanciaPlayer);
-
-        if (Perseguindo && DistanciaPlayer <= DistanciaAtaque)
-            Atacar();
-        else
+        if (Vivo)
         {
-            if (Atacando)
+            if (Perseguindo && !Atacando)
+                agent.SetDestination(player.transform.position);
+
+            if (DistanciaPlayer > 50 && Perseguindo)
+            {
+                PararPerseguir();
+            }
+
+            if (Perseguindo && DistanciaPlayer <= DistanciaAtaque)
+                Atacar();
+            else
+                if (Atacando)
             {
                 Atacando = false;
                 inimigo.PararAtacar();
             }
-        }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag.Equals("Player"))
-        {
-            Perseguindo = true;
-            inimigo.Perseguir();
+
+            IntervaloAtaque -= Time.deltaTime; 
         }
     }
 
-    void OlharAlvo()
+    public void PararPerseguir()
     {
-        Vector3 direcao = (transform.position - player.transform.position).normalized;
-        Quaternion rotacao = Quaternion.LookRotation(new Vector3(direcao.x,0,direcao.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation,rotacao,Time.deltaTime * 5);
+        Perseguindo = false;
+        inimigo.PararPerseguir();
+        agent.SetDestination(gameObject.transform.position);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.Equals("Player") && !Perseguindo && Vivo)
+        {            
+            inimigo.Perseguir();
+            CalculaDistancia();
+            InvokeRepeating(nameof(CalculaDistancia), 0, 1);
+            Perseguindo = true;
+        }
+    }
+
+    void CalculaDistancia()
+    {
+        var dist = (transform.position - player.transform.position).magnitude;
+        DistanciaPlayer = dist > 100 ? DistanciaAtaque + 1: dist;
     }
 
     void Atacar()
     {
-        Atacando = true;
-        inimigo.Atacar();
+        if(IntervaloAtaque <= 0)
+        {
+            Debug.Log("atacando");
+            Atacando = true;
+            inimigo.Atacar();
+            IntervaloAtaque = 2;
+        }
     }
 }

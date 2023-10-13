@@ -2,11 +2,20 @@
 
 namespace Assets.Scripts
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IDanificavel
     {
         public static Player instance;
         public PlayerStatus Status { get; set; }
         public PlayerUI PlayerUI { get; set; }
+
+        public void Dano(int quantidade)
+        {
+        }
+
+        public void Destruir()
+        {
+            Debug.Log("Morreu");
+        }
 
         private void Awake()
         {
