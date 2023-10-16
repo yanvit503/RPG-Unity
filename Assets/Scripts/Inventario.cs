@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +8,9 @@ public class Inventario : MonoBehaviour
 {
     [SerializeField]
     GameObject SlotHolder;
+    
+    [SerializeField]
+    AudioClip somPegarItem;
 
     List<SlotInventario> Slots;
     [HideInInspector]
@@ -14,6 +18,8 @@ public class Inventario : MonoBehaviour
 
     [SerializeField]
     public Image imagemArrastando;
+
+    AudioSource audioSource;
 
     private void Awake()
     {
@@ -23,6 +29,7 @@ public class Inventario : MonoBehaviour
     void Start()
     {        
         Slots = GetSlots();
+        audioSource = Player.instance.GetComponent<AudioSource>();
         Cursor.visible = true;
     }
 
@@ -105,5 +112,9 @@ public class Inventario : MonoBehaviour
 
         slot.Item = item;
         slot.Item.Quantidade = qnt;
+
+        audioSource.PlayOneShot(somPegarItem);
+
+        NotificacaoInventarioManager.Instancia.NotificacaoPegarItem(item.ItemSO.Nome, item.ItemSO.Quantidade.ToString());
     }
 }

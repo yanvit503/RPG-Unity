@@ -18,10 +18,13 @@ namespace Assets.Scripts
             Instancia = this;
             Armas = new List<IArma>();
 
-            // Mapeie as teclas às posições na lista de armas
             teclaParaIndice[KeyCode.Alpha1] = 0;
             teclaParaIndice[KeyCode.Alpha2] = 1;
-            // Adicione mais mapeamentos conforme necessário
+        }
+
+        private void Start()
+        {
+            EquiparArma(Armas[0]);
         }
 
         private void Update()
