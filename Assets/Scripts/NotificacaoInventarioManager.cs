@@ -27,7 +27,7 @@ namespace Assets.Scripts
         {
             var obj = Instantiate(notificacaoPegarPrefab,notificacaoHolder.transform);
             obj.GetComponent<NotificacaoInventario>().txtNome.text = nome;
-            obj.GetComponent<NotificacaoInventario>().txtQuatidade.text = $"+{quantidade}";
+            obj.GetComponent<NotificacaoInventario>().txtQuatidade.text = quantidade;
             AtualizaGrid();
         }
 

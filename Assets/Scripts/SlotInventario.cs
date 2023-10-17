@@ -34,6 +34,6 @@ public class SlotInventario : MonoBehaviour
     public void AtualizaQuantidade(Item item)
     {
         Item = item;
-        TextoQuantidade.text = item.Quantidade.ToString();
+        TextoQuantidade.text = item.GetQuantidade().ToString();
     }
 }

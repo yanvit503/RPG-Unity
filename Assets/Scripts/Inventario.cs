@@ -8,7 +8,7 @@ public class Inventario : MonoBehaviour
 {
     [SerializeField]
     GameObject SlotHolder;
-    
+
     [SerializeField]
     AudioClip somPegarItem;
 
@@ -27,7 +27,7 @@ public class Inventario : MonoBehaviour
     }
 
     void Start()
-    {        
+    {
         Slots = GetSlots();
         audioSource = Player.instance.GetComponent<AudioSource>();
         Cursor.visible = true;
@@ -55,13 +55,13 @@ public class Inventario : MonoBehaviour
         if (item.ItemSO.Estacavel)
         {
             //procura se já tem no invetario
-            var slotComItem = Slots.Where(x => x.Item != null && x.Item.ItemSO.Nome.Equals(item.ItemSO.Nome) && x.Item.Quantidade < x.QuantidadeMaxima).ToList();
+            var slotComItem = Slots.Where(x => x.Item != null && x.Item.ItemSO.Nome.Equals(item.ItemSO.Nome) && x.Item.GetQuantidade() < x.QuantidadeMaxima).ToList();
 
             //ja tem
             foreach (var slot in slotComItem)
             {
                 //adiciona quantidade no slot que ja tem o item
-                AdicionaNoSlot(slot, item);
+                AdicionaNoSlot(slot, item, "adiciona quantidade no slot que ja tem o item");
 
                 return;
             }
@@ -70,7 +70,7 @@ public class Inventario : MonoBehaviour
             //adiciona no slot vazio
             foreach (var slot in slotsVazios)
             {
-                AdicionaNoSlot(slot, item);
+                AdicionaNoSlot(slot, item, "adiciona no slot vazio");
                 break;
             }
 
@@ -78,24 +78,34 @@ public class Inventario : MonoBehaviour
         else
             foreach (var slot in slotsVazios)
             {
-                AdicionaNoSlot(slot, item);
+                AdicionaNoSlot(slot, item,"não estacavel");
                 break;
             }
 
     }
 
-    public void AdicionaNoSlot(SlotInventario slot, Item item, bool mesmoItem = true)
+    public void AdicionaNoSlot(SlotInventario slot, Item item,string chamada)
     {
         slot.Ocupado = true;
         slot.ImageHolder.sprite = item.ItemSO.Icone;
 
-        int qnt;
+        string qntStr = "";
+
+        int qnt = 0;
         if (item.ItemSO.Estacavel)
         {
-            if (mesmoItem)
-                qnt = slot.Item == null ? _ = item.Quantidade : _ = slot.Item.Quantidade += item.Quantidade;
+            var qntTotal = QuantiadeTotalItem(item);
+            if (qntTotal > 0 && slot.Item != null)
+            {
+                qnt = slot.Item.Soma(item.GetQuantidade());
+                qntStr = qntTotal > 0 ? $"+{item.GetQuantidade()}({qntTotal + item.GetQuantidade()})" : $"+{item.GetQuantidade()}";
+            }
             else
-                qnt = item.Quantidade;
+            {
+                qntStr = $"+{item.GetQuantidade()}";
+                slot.TextoQuantidade.text = qnt.ToString();
+                qnt = item.GetQuantidade();
+            }
 
             slot.TextoQuantidade.text = qnt.ToString();
         }
@@ -105,16 +115,28 @@ public class Inventario : MonoBehaviour
             qnt = 1;
         }
 
-        item.transform.parent = slot.transform;
+        item.transform.SetParent(slot.transform);
         item.gameObject.SetActive(false);
 
         slot.ImageHolder.color = new Color(1, 1, 1, 1);
 
         slot.Item = item;
-        slot.Item.Quantidade = qnt;
+        slot.Item.AtualizaQuantidade(qnt);
 
         audioSource.PlayOneShot(somPegarItem);
 
-        NotificacaoInventarioManager.Instancia.NotificacaoPegarItem(item.ItemSO.Nome, item.ItemSO.Quantidade.ToString());
+        NotificacaoInventarioManager.Instancia.NotificacaoPegarItem(item.ItemSO.Nome, qntStr);
+    }
+
+    int QuantiadeTotalItem(Item item)
+    {
+        int retorno = 0;
+
+        foreach (var slot in Slots.Where(x => x.Item != null && x.Item.ItemSO.Nome.Equals(item.ItemSO.Nome)))
+        {
+            retorno += slot.Item.GetQuantidade();
+        }
+
+        return retorno;
     }
 }

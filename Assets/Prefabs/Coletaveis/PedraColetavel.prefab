@@ -104,7 +104,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &988524320291270271
 Transform:
   m_ObjectHideFlags: 0
@@ -163,7 +163,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemSO: {fileID: 11400000, guid: 603a40d6d17571e4783cd6c6bf31cc1d, type: 2}
-  Quantidade: 0
   SomPegarItem: {fileID: 0}
 --- !u!95 &5684636835629966912
 Animator:

@@ -9,59 +9,59 @@ public class SlotCraftingTable : SlotInventario
 
     public void CliqueSlot(SlotCraftingTable slot)
     {
-        imagemArrastando = Inventario.Instance.imagemArrastando;
+        //imagemArrastando = Inventario.Instance.imagemArrastando;
 
-        if (InventarioUIManager.Instance.ArrastandoItem)
-        {
-            //verifica se o item é igual
-            if (slot.Item != null && slot.Item.ItemSO.Nome.Equals(InventarioUIManager.Instance.ItemArrastando.ItemSO.Nome))
-            {
-                if (!InventarioUIManager.Instance.ArrastandoMetade)
-                    InventarioUIManager.Instance.SlotAnterior.RemoveItem();
-                InventarioUIManager.Instance.ArrastandoItem = false;
-                Inventario.Instance.AdicionaNoSlot(slot, InventarioUIManager.Instance.ItemArrastando);
-                imagemArrastando.gameObject.SetActive(InventarioUIManager.Instance.ArrastandoItem);
-                InventarioUIManager.Instance.SlotAnterior.ImageHolder.color = new Color(1, 1, 1, 1);
+        //if (InventarioUIManager.Instance.ArrastandoItem)
+        //{
+        //    //verifica se o item é igual
+        //    if (slot.Item != null && slot.Item.ItemSO.Nome.Equals(InventarioUIManager.Instance.ItemArrastando.ItemSO.Nome))
+        //    {
+        //        if (!InventarioUIManager.Instance.ArrastandoMetade)
+        //            InventarioUIManager.Instance.SlotAnterior.RemoveItem();
+        //        InventarioUIManager.Instance.ArrastandoItem = false;
+        //        Inventario.Instance.AdicionaNoSlot(slot, InventarioUIManager.Instance.ItemArrastando);
+        //        imagemArrastando.gameObject.SetActive(InventarioUIManager.Instance.ArrastandoItem);
+        //        InventarioUIManager.Instance.SlotAnterior.ImageHolder.color = new Color(1, 1, 1, 1);
 
-            }
-            else if (slot.Item != null && !slot.Item.ItemSO.Nome.Equals(InventarioUIManager.Instance.ItemArrastando.ItemSO.Nome))
-            {
-                //troca item
-                var itemAnterior = slot.Item;
-                if (!InventarioUIManager.Instance.ArrastandoMetade)
-                    InventarioUIManager.Instance.SlotAnterior.RemoveItem();
+        //    }
+        //    else if (slot.Item != null && !slot.Item.ItemSO.Nome.Equals(InventarioUIManager.Instance.ItemArrastando.ItemSO.Nome))
+        //    {
+        //        //troca item
+        //        var itemAnterior = slot.Item;
+        //        if (!InventarioUIManager.Instance.ArrastandoMetade)
+        //            InventarioUIManager.Instance.SlotAnterior.RemoveItem();
 
-                Inventario.Instance.AdicionaNoSlot(slot, InventarioUIManager.Instance.ItemArrastando, false);
+        //        Inventario.Instance.AdicionaNoSlot(slot, InventarioUIManager.Instance.ItemArrastando);
 
-                InventarioUIManager.Instance.ArrastandoItem = true;
-                InventarioUIManager.Instance.ItemArrastando = itemAnterior;
-                imagemArrastando.sprite = itemAnterior.ItemSO.Icone;
-                imagemArrastando.gameObject.SetActive(InventarioUIManager.Instance.ArrastandoItem);
-                InventarioUIManager.Instance.SlotAnterior.ImageHolder.color = new Color(1, 1, 1, 1);
-            }
-            else
-            {
-                if (!InventarioUIManager.Instance.ArrastandoMetade)
-                    InventarioUIManager.Instance.SlotAnterior.RemoveItem();
-                InventarioUIManager.Instance.ArrastandoItem = false;
-                Inventario.Instance.AdicionaNoSlot(slot, InventarioUIManager.Instance.ItemArrastando);
-                imagemArrastando.gameObject.SetActive(InventarioUIManager.Instance.ArrastandoItem);
-                InventarioUIManager.Instance.SlotAnterior.ImageHolder.color = new Color(1, 1, 1, 1);
-            }
-            CraftingTableUIManager.Instance.VerificaReceita();
-        }
-        else
-        {
-            if (slot.Item != null)
-            {
-                if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    ComecaArrastarMetade(slot);
-                }
-                else
-                    ComecaArrastarItem(slot);
-            }
-        }
+        //        InventarioUIManager.Instance.ArrastandoItem = true;
+        //        InventarioUIManager.Instance.ItemArrastando = itemAnterior;
+        //        imagemArrastando.sprite = itemAnterior.ItemSO.Icone;
+        //        imagemArrastando.gameObject.SetActive(InventarioUIManager.Instance.ArrastandoItem);
+        //        InventarioUIManager.Instance.SlotAnterior.ImageHolder.color = new Color(1, 1, 1, 1);
+        //    }
+        //    else
+        //    {
+        //        if (!InventarioUIManager.Instance.ArrastandoMetade)
+        //            InventarioUIManager.Instance.SlotAnterior.RemoveItem();
+        //        InventarioUIManager.Instance.ArrastandoItem = false;
+        //        Inventario.Instance.AdicionaNoSlot(slot, InventarioUIManager.Instance.ItemArrastando);
+        //        imagemArrastando.gameObject.SetActive(InventarioUIManager.Instance.ArrastandoItem);
+        //        InventarioUIManager.Instance.SlotAnterior.ImageHolder.color = new Color(1, 1, 1, 1);
+        //    }
+        //    CraftingTableUIManager.Instance.VerificaReceita();
+        //}
+        //else
+        //{
+        //    if (slot.Item != null)
+        //    {
+        //        if (Input.GetKey(KeyCode.LeftShift))
+        //        {
+        //            ComecaArrastarMetade(slot);
+        //        }
+        //        else
+        //            ComecaArrastarItem(slot);
+        //    }
+        //}
 
 
 
@@ -80,16 +80,16 @@ public class SlotCraftingTable : SlotInventario
 
     private void ComecaArrastarMetade(SlotCraftingTable slot)
     {
-        if (slot.Item.Quantidade > 1)
+        if (slot.Item.GetQuantidade() > 1)
         {
             slot.ImageHolder.color = new Color(1, 1, 1, 0.2f);
 
             var itemDividido = Instantiate(slot.Item);
-            var divisao = slot.Item.Quantidade / 2;
-            var resto = slot.Item.Quantidade % 2;
+            var divisao = slot.Item.GetQuantidade() / 2;
+            var resto = slot.Item.GetQuantidade() % 2;
 
-            itemDividido.Quantidade = divisao + resto;
-            slot.Item.Quantidade = slot.Item.Quantidade / 2;
+            itemDividido.AtualizaQuantidade(divisao + resto);
+            slot.Item.AtualizaQuantidade(slot.Item.GetQuantidade() / 2);
 
             InventarioUIManager.Instance.ItemArrastando = itemDividido;
             InventarioUIManager.Instance.ArrastandoItem = true;
@@ -106,13 +106,13 @@ public class SlotCraftingTable : SlotInventario
 
     public void CliqueInventario()
     {
-        if (InventarioUIManager.Instance.ArrastandoItem)
-        {
-            InventarioUIManager.Instance.SlotAnterior.RemoveItem();
-            InventarioUIManager.Instance.ArrastandoItem = false;
-            Inventario.Instance.AdicionaNoSlot(InventarioUIManager.Instance.SlotAnterior, InventarioUIManager.Instance.ItemArrastando);
-            imagemArrastando.gameObject.SetActive(InventarioUIManager.Instance.ArrastandoItem);
-        }
+        //if (InventarioUIManager.Instance.ArrastandoItem)
+        //{
+        //    InventarioUIManager.Instance.SlotAnterior.RemoveItem();
+        //    InventarioUIManager.Instance.ArrastandoItem = false;
+        //    Inventario.Instance.AdicionaNoSlot(InventarioUIManager.Instance.SlotAnterior, InventarioUIManager.Instance.ItemArrastando);
+        //    imagemArrastando.gameObject.SetActive(InventarioUIManager.Instance.ArrastandoItem);
+        //}
     }
 
     void Update()

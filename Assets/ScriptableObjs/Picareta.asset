@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf36c8c30dd3c574a9b6f7cab6c4cb1b, type: 3}
-  m_Name: Madeira
+  m_Script: {fileID: 11500000, guid: 8d0940421b7d7574598ad018093d7a84, type: 3}
+  m_Name: Picareta
   m_EditorClassIdentifier: 
-  Nome: Madeira
-  Quantidade: 2
-  Icone: {fileID: 21300000, guid: c1dfa71083c4cc34ab75a46908623069, type: 3}
-  Estacavel: 1
+  Nome: Picareta
+  QuantidadeDano: 15
+  Alcance: 3
+  ArmaDeFogo: 0

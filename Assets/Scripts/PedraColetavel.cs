@@ -1,17 +1,15 @@
 using Assets.Scripts;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
-public class Arvore : MonoBehaviour, IDanificavel
+public class PedraColetavel : MonoBehaviour, IDanificavel,IColetavel
 {
+    int quantidadeDisponivel = 100;
 
-    public int quantidadeDisponivel;
-    public Item recurso;
-
-    private void Start()
-    {
-    }
+    [SerializeField]
+    Item retorno;
 
     public void Dano(int quantidade)
     {
@@ -27,7 +25,7 @@ public class Arvore : MonoBehaviour, IDanificavel
             qntAdicionar = quantidade;
         }
 
-        var itemAdd = Instantiate(recurso);
+        var itemAdd = Instantiate(retorno);
 
         itemAdd.AtualizaQuantidade(qntAdicionar);
         Inventario.Instance.AdicionarItem(itemAdd);
@@ -38,9 +36,15 @@ public class Arvore : MonoBehaviour, IDanificavel
         Destroy(gameObject);
     }
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-            Dano(12);
+        
     }
 }

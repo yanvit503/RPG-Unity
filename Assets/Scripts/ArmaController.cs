@@ -22,11 +22,6 @@ namespace Assets.Scripts
             teclaParaIndice[KeyCode.Alpha2] = 1;
         }
 
-        private void Start()
-        {
-            EquiparArma(Armas[0]);
-        }
-
         private void Update()
         {
             foreach (var tecla in teclaParaIndice)
