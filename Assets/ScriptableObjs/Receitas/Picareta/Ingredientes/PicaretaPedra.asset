@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ef7fd10bf61a5941bf04cd8772db44d, type: 3}
-  m_Name: PedraGraveto
+  m_Name: PicaretaPedra
   m_EditorClassIdentifier: 
   Item: {fileID: 11400000, guid: 603a40d6d17571e4783cd6c6bf31cc1d, type: 2}
-  QuantidadeNecessaria: 1
+  QuantidadeNecessaria: 3

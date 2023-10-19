@@ -11,7 +11,7 @@ public class CraftingUIManager : MonoBehaviour
 
     [SerializeField]
     List<ReceitaScriptableObject> Receitas;
-    
+
     [SerializeField]
     List<Image> ImagensIngredientes;
 
@@ -24,33 +24,73 @@ public class CraftingUIManager : MonoBehaviour
     [SerializeField]
     Image IconeItem;
 
+    [SerializeField]
+    GameObject ReceitaSelecionadaPanel;
+
+    [Header("Lista de Receitas")]
+    [SerializeField]
+    GameObject ContentHolder;
+
+    [SerializeField]
+    ReceitaBotaoUI ItemReceitaPrefab;
+
     void Start()
     {
-        
+        ReceitaSelecionadaPanel.SetActive(false);
+        LimparListaIngredientes();
+        SelecionarReceita(Receitas.First());
+        MostraReceitas();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void SelecionarReceita(ReceitaScriptableObject receita)
     {
-        ReceitaSelecionada = receita;
-        IconeItem.sprite = ReceitaSelecionada.Saida.Icone;
-        TituloNomeItem.text = ReceitaSelecionada.Saida.Nome;
-
-        for(int i = 0; i < ReceitaSelecionada.Ingredientes.Count(); i++)
+        if (receita != null)
         {
-            ImagensIngredientes[i].sprite = ReceitaSelecionada.Ingredientes[i].Item.Icone;
-            TextosQuantidadeIngrediente[i].text = ReceitaSelecionada.Ingredientes[i].QuantidadeNecessaria.ToString();
+            LimparListaIngredientes();
+            ReceitaSelecionadaPanel.SetActive(true);
+
+            ReceitaSelecionada = receita;
+            IconeItem.sprite = ReceitaSelecionada.Saida.Icone;
+            TituloNomeItem.text = ReceitaSelecionada.Saida.Nome;
+
+            for (int i = 0; i < ReceitaSelecionada.Ingredientes.Count(); i++)
+            {
+                if (ReceitaSelecionada.Ingredientes[i].Item != null)
+                {
+                    ImagensIngredientes[i].gameObject.SetActive(true);
+                    ImagensIngredientes[i].sprite = ReceitaSelecionada.Ingredientes[i].Item.Icone;
+                    TextosQuantidadeIngrediente[i].text = ReceitaSelecionada.Ingredientes[i].QuantidadeNecessaria.ToString();
+                }
+            }
         }
     }
 
     void LimparListaIngredientes()
     {
+        int i = 0;
 
+        ImagensIngredientes.ForEach(x =>
+        {
+            x.gameObject.SetActive(false);
+            TextosQuantidadeIngrediente[i].text = string.Empty;
+            i++;
+        });
     }
 
+    void MostraReceitas()
+    {
+        Receitas.ForEach(x =>
+        {
+            var btn = Instantiate(ItemReceitaPrefab, ContentHolder.transform);
+            btn.GetComponent<ReceitaBotaoUI>().Receita = x;
+            btn.GetComponent<ReceitaBotaoUI>().UICraftManager = this;
+            btn.GetComponent<ReceitaBotaoUI>().AtualizaUI();
+        });
+    }
 }

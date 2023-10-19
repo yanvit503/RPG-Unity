@@ -14,9 +14,6 @@ public class ReceitaBotaoUI : MonoBehaviour
     {
         icone = transform.GetChild(0).GetComponentInChildren<Image>();
         texto = transform.GetChild(1).GetComponentInChildren<TextMeshProUGUI>();
-
-        icone.sprite = Receita.Saida.Icone;
-        texto.text = Receita.Saida.Nome;
     }
 
     // Update is called once per frame
@@ -28,5 +25,11 @@ public class ReceitaBotaoUI : MonoBehaviour
     public void OnClick()
     {
         UICraftManager.SelecionarReceita(Receita);
+    }
+    
+    public void AtualizaUI()
+    {
+        icone.sprite = Receita.Saida.Icone;
+        texto.text = Receita.Saida.Nome;
     }
 }

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Nome: Graveto
   Quantidade: 1
-  Icone: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  Icone: {fileID: 21300000, guid: cd32a3494cf94004e9ab0b9f07a3e046, type: 3}
   Estacavel: 1
