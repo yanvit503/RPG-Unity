@@ -1,67 +1,73 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using static UnityEditor.Progress;
 
-public class CraftingTableUIManager : MonoBehaviour
+public class CraftingManager : MonoBehaviour
 {
-    [SerializeField]
-    GameObject SlotHolder;
-
-    [SerializeField]
-    SlotInventario SlotSaida;
-    
     [SerializeField]
     List<ReceitaScriptableObject> Receitas;
 
-    SlotCraftingTable[] _slots;
-
-    public static CraftingTableUIManager Instance;
+    [SerializeField]
+    ItemScriptableObj itemTeste;
 
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
-        _slots = GetSlots();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            FabricarItem(itemTeste);
+        }
     }
 
-    SlotCraftingTable[] GetSlots()
+    //um item fabricável não poderá haver mais de uma receita
+    public bool VerificaReceita(ItemScriptableObj item)
     {
-        SlotCraftingTable[] slots = new SlotCraftingTable[9];
+        bool receitaCompleta = false;
+        Debug.Log("Verificando receita " + item.Nome);
 
-        for (int i = 0; i < SlotHolder.transform.childCount; i++)
+        var receita = Receitas.Where(x => x.Saida.Equals(item)).First();
+
+        foreach (var ingrediente in receita.Ingredientes)
         {
-            var child = SlotHolder.transform.GetChild(i);
+            var qntInventario = Inventario.Instance.GetItemBySO(ingrediente.Item)?.Sum(x => x.GetQuantidade());
 
-            if (child.GetComponent<SlotCraftingTable>() != null)
-                slots[i] = child.GetComponent<SlotCraftingTable>();
+            if (qntInventario.HasValue && qntInventario >= ingrediente.QuantidadeNecessaria)
+                receitaCompleta = true;
         }
 
-        return slots;
+        if (receitaCompleta)
+            //mostra o item que vai ser craftado
+            Debug.Log(receita.Saida.Nome);
+
+        return receitaCompleta;
     }
 
-    public void VerificaReceita()
+    public bool FabricarItem(ItemScriptableObj saida)
     {
-        bool receitaCompleta = true;
-        Debug.Log("Verificando receitas... ");
+        bool fabricou = false;
 
-        foreach (var receita in Receitas)
-        {   
-            for(int i  = 0; i < _slots.Length; i++)
+        if(VerificaReceita(saida))
+        {
+            //retira a quantidade usada na fabricação
+            var receita = Receitas.Where(x => x.Saida.Equals(saida)).First();
+
+            foreach (var ingrediente in receita.Ingredientes)
             {
-                if (receita.Ingredientes[i] != null)//receita tem item nesse slot
-                    if (!_slots[i].Ocupado || _slots[i].Item.ItemSO.Nome != receita.Ingredientes[i].Nome)//o slot está vazio ou com o item errado
-                        receitaCompleta = false;
+                Inventario.Instance.RemoveQuantidade(ingrediente.Item,ingrediente.QuantidadeNecessaria);
             }
 
-            if (receitaCompleta)
-                //mostra o item que vai ser craftado
-                Debug.Log(receita.Saida.Nome);
-        }       
+            //adiciona o item fabricado no inventario
+
+            fabricou = true;
+        }
+
+        return fabricou;
     }
 }

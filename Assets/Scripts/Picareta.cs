@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -9,6 +11,15 @@ namespace Assets.Scripts
 
         [SerializeField]
         AudioClip somBater;
+
+        [SerializeField]
+        GameObject ParticulaImpacto;
+
+        [SerializeField]
+        List<TipoColetavelEnum> TiposPermitidos;
+        
+        [SerializeField]
+        float CameraShake;
 
         float cooldown = .5f;
         AudioSource AudioSource;
@@ -32,12 +43,19 @@ namespace Assets.Scripts
             RaycastHit hit;
             if (Physics.Raycast(camPos, Camera.main.transform.TransformDirection(Vector3.forward), out hit, ArmaSO.Alcance, LayerMask.GetMask("Coletavel")))
             {
-                if (hit.collider != null && !hit.collider.isTrigger)
+                if (hit.collider != null)
                 {
-                    if (hit.collider.GetComponent<IDanificavel>() != null)
+                    var danificavel = hit.collider.GetComponent<IDanificavel>();
+                    var coletavel = hit.collider.GetComponent<IColetavel>();
+
+                    if (danificavel != null && coletavel != null && TiposPermitidos.Any(x => x.Equals(coletavel.Tipo)))
                     {
-                        hit.collider.GetComponent<IDanificavel>().Dano(ArmaSO.QuantidadeDano);
+                        danificavel.Dano(ArmaSO.QuantidadeDano);
                         AudioSource.PlayOneShot(somBater);
+
+                        Camera.main.GetComponent<StressReceiver>().InduceStress(CameraShake);
+
+                        Instantiate(ParticulaImpacto,hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal),hit.collider.transform);
                     }
                 }
             }

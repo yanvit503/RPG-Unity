@@ -1,17 +1,18 @@
 using Assets.Scripts;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
-public class Arvore : MonoBehaviour, IDanificavel
+public class Arvore : MonoBehaviour, IDanificavel, IColetavel
 {
+    [SerializeField]
+    int quantidadeDisponivel = 100;
 
-    public int quantidadeDisponivel;
-    public Item recurso;
+    [SerializeField]
+    Item recurso;
 
-    private void Start()
-    {
-    }
+    [SerializeField]
+    TipoColetavelEnum Tipo;
+
+    TipoColetavelEnum IColetavel.Tipo { get { return Tipo; } set { Tipo = value; } }
 
     public void Dano(int quantidade)
     {
@@ -36,11 +37,5 @@ public class Arvore : MonoBehaviour, IDanificavel
     public void Destruir()
     {
         Destroy(gameObject);
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F))
-            Dano(12);
     }
 }

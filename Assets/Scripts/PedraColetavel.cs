@@ -1,15 +1,21 @@
 using Assets.Scripts;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class PedraColetavel : MonoBehaviour, IDanificavel,IColetavel
+public class PedraColetavel : MonoBehaviour, IDanificavel, IColetavel
 {
+    [SerializeField]
     int quantidadeDisponivel = 100;
 
     [SerializeField]
     Item retorno;
+    
+    [SerializeField]
+    GameObject ParticulaDestruir;
+
+    [SerializeField]
+    TipoColetavelEnum Tipo;
+
+    TipoColetavelEnum IColetavel.Tipo { get { return Tipo; } set { Tipo = value; } }
 
     public void Dano(int quantidade)
     {
@@ -33,18 +39,7 @@ public class PedraColetavel : MonoBehaviour, IDanificavel,IColetavel
 
     public void Destruir()
     {
+        Instantiate(ParticulaDestruir,transform.position,transform.rotation);
         Destroy(gameObject);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -17,6 +17,26 @@ public class Item : MonoBehaviour
         return Quantidade + qnt;
     }
     
+    /// <summary>
+    /// Remove quantidade do item, caso a quantidade a remover seja maior ou igual a zero, retorna a quantidade total e exclui o item
+    /// </summary>
+    /// <param name="qnt"></param>
+    /// <returns></returns>
+    public int Subtrai(int qnt)
+    {
+        var qntAnterior = Quantidade;
+        var result = Quantidade - qnt;
+        Quantidade -= qnt;
+
+        if (result <= 0)
+        {
+            Destroy(gameObject);
+            return qntAnterior;
+        }
+
+        return result;
+    }
+    
     public int AtualizaQuantidade(int qnt)
     {
         Quantidade = qnt;

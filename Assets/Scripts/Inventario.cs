@@ -78,13 +78,13 @@ public class Inventario : MonoBehaviour
         else
             foreach (var slot in slotsVazios)
             {
-                AdicionaNoSlot(slot, item,"não estacavel");
+                AdicionaNoSlot(slot, item, "não estacavel");
                 break;
             }
 
     }
 
-    public void AdicionaNoSlot(SlotInventario slot, Item item,string chamada)
+    public void AdicionaNoSlot(SlotInventario slot, Item item, string chamada)
     {
         slot.Ocupado = true;
         slot.ImageHolder.sprite = item.ItemSO.Icone;
@@ -126,9 +126,11 @@ public class Inventario : MonoBehaviour
         audioSource.PlayOneShot(somPegarItem);
 
         NotificacaoInventarioManager.Instancia.NotificacaoPegarItem(item.ItemSO.Nome, qntStr);
+
+        slot.AtualizaSlot();
     }
 
-    int QuantiadeTotalItem(Item item)
+    public int QuantiadeTotalItem(Item item)
     {
         int retorno = 0;
 
@@ -139,4 +141,68 @@ public class Inventario : MonoBehaviour
 
         return retorno;
     }
+
+    public List<Item> GetItem(Item item)
+    {
+        try
+        {
+            return Slots.Where(x => x.Item != null && x.Item.Equals(item)).Select(x => x.Item).ToList();
+        }
+        catch
+        {
+            return new List<Item>();
+        }
+    }
+
+    public List<Item> GetItemBySO(ItemScriptableObj item)
+    {
+        List<Item> items = new List<Item>();
+
+        try
+        {
+            foreach (Item i in Slots.Where(x => x.Item != null && x.Item.ItemSO.Nome.Equals(item.Nome)).Select(x => x.Item))
+            {
+                items.Add(i);
+            }
+
+            return items;
+        }
+        catch
+        {
+            return items;
+        }
+    }
+
+    public int RemoveQuantidade(ItemScriptableObj item, int quantidade)
+    {
+        int quantidadeRemovida = 0;
+
+        try
+        {
+            foreach (SlotInventario slot in Slots.Where(x => x.Item != null && x.Item.ItemSO.Nome.Equals(item.Nome)))
+            {
+                Item i = slot.Item;
+
+                if (quantidadeRemovida < quantidade)
+                {
+                    var qntItem = i.GetQuantidade();
+                    var qntRemovidaAgora = i.Subtrai(quantidade);
+                    
+                    quantidadeRemovida += qntRemovidaAgora;
+
+                    if (qntRemovidaAgora >= qntItem)
+                        slot.Item = null;
+                }
+
+                slot.AtualizaSlot();
+            }
+
+            return quantidadeRemovida;
+        }
+        catch
+        {
+            return quantidadeRemovida;
+        }
+    }
+
 }

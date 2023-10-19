@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 public class SlotInventario : MonoBehaviour
 {
@@ -22,13 +23,20 @@ public class SlotInventario : MonoBehaviour
 
     public void RemoveItem()
     {
+        ImageHolder.sprite = SpriteInicial;
+        TextoQuantidade.text = string.Empty;
+        Ocupado = false;
+        Item = null;
+    }
+
+    public void AtualizaSlot()
+    {
         if (Item != null)
         {
-            ImageHolder.sprite = SpriteInicial;
-            TextoQuantidade.text = string.Empty;
-            Ocupado = false;
-            Item = null;
+            TextoQuantidade.text = Item.GetQuantidade().ToString();
         }
+        else
+            RemoveItem();
     }
 
     public void AtualizaQuantidade(Item item)
