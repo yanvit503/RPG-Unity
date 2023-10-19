@@ -205,4 +205,12 @@ public class Inventario : MonoBehaviour
         }
     }
 
+    public Item InstanciaItem(ReceitaScriptableObject receita)
+    {
+        // Crie um novo objeto vazio
+        GameObject novoObjeto = new GameObject(receita.Saida.Nome);
+
+        novoObjeto.AddComponent<Item>().ItemSO = receita.Saida;
+        return Instantiate(novoObjeto).GetComponent<Item>();
+    }
 }

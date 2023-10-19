@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -40,12 +39,6 @@ public class CraftingUIManager : MonoBehaviour
         LimparListaIngredientes();
         SelecionarReceita(Receitas.First());
         MostraReceitas();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void SelecionarReceita(ReceitaScriptableObject receita)
@@ -92,5 +85,10 @@ public class CraftingUIManager : MonoBehaviour
             btn.GetComponent<ReceitaBotaoUI>().UICraftManager = this;
             btn.GetComponent<ReceitaBotaoUI>().AtualizaUI();
         });
+    }
+
+    public void FabricarReceitaSelecionada()
+    {
+        CraftingManager.FabricarItem(ReceitaSelecionada);
     }
 }
