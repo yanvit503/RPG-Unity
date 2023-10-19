@@ -16,4 +16,3 @@ MonoBehaviour:
   QuantidadeSaida: 4
   Ingredientes:
   - {fileID: 11400000, guid: 45b1122d5d884004398f1ae1adcac3b1, type: 2}
-  - {fileID: 11400000, guid: 7d659d9d119ac824a80e4eb5081b9228, type: 2}

@@ -15,5 +15,5 @@ MonoBehaviour:
   Saida: {fileID: 11400000, guid: 84a934ec502c40640b36e8eedd1983e2, type: 2}
   QuantidadeSaida: 1
   Ingredientes:
-  - {fileID: 11400000, guid: 45b1122d5d884004398f1ae1adcac3b1, type: 2}
-  - {fileID: 11400000, guid: 7d659d9d119ac824a80e4eb5081b9228, type: 2}
+  - {fileID: 11400000, guid: 2d0c20df100c35a41bed0d442b4517eb, type: 2}
+  - {fileID: 11400000, guid: 85fe4e11f67a38c44a297d0746f32de6, type: 2}
