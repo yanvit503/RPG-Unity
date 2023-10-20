@@ -6,13 +6,10 @@ public class InventarioUIManager : MonoBehaviour
 {
     public static InventarioUIManager Instance;
 
-    [SerializeField]
-    public GameObject PainelCraftingTable;
-
-    public bool ArrastandoItem = false;
-    public bool ArrastandoMetade = false;
-    public SlotInventario SlotAnterior;
-    public Item ItemArrastando;
+    [HideInInspector]public bool ArrastandoItem = false;
+    [HideInInspector] public bool ArrastandoMetade = false;
+    [HideInInspector] public SlotInventario SlotAnterior;
+    [HideInInspector] public Item ItemArrastando;
 
     void Start()
     {
@@ -35,6 +32,5 @@ public class InventarioUIManager : MonoBehaviour
     public void AbrirCraftingTable(bool abrir)
     {
         AbrirInventario(abrir);
-        PainelCraftingTable.gameObject.SetActive(abrir);
     }
 }

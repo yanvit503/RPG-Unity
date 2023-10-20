@@ -6,10 +6,6 @@ public class InventarioController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            InventarioUIManager.Instance.AbrirInventario(aberto);
-            aberto = !aberto;
-        }
+
     }
 }
