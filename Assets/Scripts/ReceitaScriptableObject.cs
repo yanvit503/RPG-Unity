@@ -7,6 +7,7 @@ public class ReceitaScriptableObject : ScriptableObject
     public ItemScriptableObj Saida;
 
     public int QuantidadeSaida;
+    public float TempoFabricacao;
 
     public IngredienteReceita[] Ingredientes;
 }

@@ -1,10 +1,14 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ReceitaBotaoUI : MonoBehaviour
 {
+    [HideInInspector]
     public ReceitaScriptableObject Receita;
+
+    [HideInInspector]
     public CraftingUIManager UICraftManager;
 
     Image icone;
@@ -24,9 +28,19 @@ public class ReceitaBotaoUI : MonoBehaviour
 
     public void OnClick()
     {
+        //deseleciona os outros botões
+        var outrosBtn = transform.parent.GetComponentsInChildren<ReceitaBotaoUI>().Where(x => !x.Receita.Equals(Receita)).ToList();
+
+        outrosBtn.ForEach(x =>
+        {
+            x.GetComponent<Image>().color = new Color(GetComponent<Image>().color.r, GetComponent<Image>().color.g, GetComponent<Image>().color.b, 0);//define sprite de fundo do botão
+        });
+
+        GetComponent<Image>().color = new Color(GetComponent<Image>().color.r, GetComponent<Image>().color.g, GetComponent<Image>().color.b, 255);//define sprite de fundo do botão
+
         UICraftManager.SelecionarReceita(Receita);
     }
-    
+
     public void AtualizaUI()
     {
         icone.sprite = Receita.Saida.Icone;

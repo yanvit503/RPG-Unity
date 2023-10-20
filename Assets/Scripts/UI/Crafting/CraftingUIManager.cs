@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -32,6 +33,16 @@ public class CraftingUIManager : MonoBehaviour
 
     [SerializeField]
     ReceitaBotaoUI ItemReceitaPrefab;
+
+    [Header("Botão Fabricar")]
+    [SerializeField]
+    TextMeshProUGUI TextoBotaoFabricar;
+
+    [SerializeField]
+    Image BtnFabricar;
+
+    bool fabricando;
+    float tempoFabricando = 0.0f;
 
     void Start()
     {
@@ -89,6 +100,32 @@ public class CraftingUIManager : MonoBehaviour
 
     public void FabricarReceitaSelecionada()
     {
-        CraftingManager.FabricarItem(ReceitaSelecionada);
+        if(CraftingManager.VerificaReceita(ReceitaSelecionada) && !fabricando)
+        {
+            fabricando = true;
+            tempoFabricando = 0;
+            BtnFabricar.fillAmount = 0;
+        }
+    }
+
+    private void Update()
+    {
+        if(fabricando)
+        {
+            tempoFabricando += Time.deltaTime;
+            BtnFabricar.fillAmount = tempoFabricando / ReceitaSelecionada.TempoFabricacao;
+
+            var tempoRestante = Convert.ToInt32(ReceitaSelecionada.TempoFabricacao - tempoFabricando) + 1;
+            TextoBotaoFabricar.text = $"Fabricando ({tempoRestante})";
+
+            if (tempoFabricando >= ReceitaSelecionada.TempoFabricacao)
+            {
+                CraftingManager.FabricarItem(ReceitaSelecionada);
+                fabricando = false;
+                tempoFabricando = 0;
+                BtnFabricar.fillAmount = 1;
+                TextoBotaoFabricar.text = "Fabricar";
+            }
+        }
     }
 }

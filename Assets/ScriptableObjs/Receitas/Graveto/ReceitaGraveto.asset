@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Saida: {fileID: 11400000, guid: c80e7a3391f584745b89baf15ae2ac39, type: 2}
   QuantidadeSaida: 4
+  TempoFabricacao: 2
   Ingredientes:
   - {fileID: 11400000, guid: 45b1122d5d884004398f1ae1adcac3b1, type: 2}

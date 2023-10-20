@@ -61,7 +61,7 @@ public class Inventario : MonoBehaviour
             foreach (var slot in slotComItem)
             {
                 //adiciona quantidade no slot que ja tem o item
-                AdicionaNoSlot(slot, item, "adiciona quantidade no slot que ja tem o item");
+                AdicionaNoSlot(slot, item);
 
                 return;
             }
@@ -70,7 +70,7 @@ public class Inventario : MonoBehaviour
             //adiciona no slot vazio
             foreach (var slot in slotsVazios)
             {
-                AdicionaNoSlot(slot, item, "adiciona no slot vazio");
+                AdicionaNoSlot(slot, item);
                 break;
             }
 
@@ -78,13 +78,13 @@ public class Inventario : MonoBehaviour
         else
             foreach (var slot in slotsVazios)
             {
-                AdicionaNoSlot(slot, item, "não estacavel");
+                AdicionaNoSlot(slot, item);
                 break;
             }
 
     }
 
-    public void AdicionaNoSlot(SlotInventario slot, Item item, string chamada)
+    public void AdicionaNoSlot(SlotInventario slot, Item item, bool tocaSom = false,bool notifica = false)
     {
         slot.Ocupado = true;
         slot.ImageHolder.sprite = item.ItemSO.Icone;
@@ -123,9 +123,9 @@ public class Inventario : MonoBehaviour
         slot.Item = item;
         slot.Item.AtualizaQuantidade(qnt);
 
-        audioSource.PlayOneShot(somPegarItem);
+        if(tocaSom) audioSource.PlayOneShot(somPegarItem);
 
-        NotificacaoInventarioManager.Instancia.NotificacaoPegarItem(item.ItemSO.Nome, qntStr);
+        if(notifica) NotificacaoInventarioManager.Instancia.NotificacaoPegarItem(item.ItemSO.Nome, qntStr);
 
         slot.AtualizaSlot();
     }

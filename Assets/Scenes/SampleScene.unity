@@ -33606,7 +33606,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.23548388, y: 0.2643277}
   m_AnchorMax: {x: 0.23548388, y: 0.2643277}
-  m_AnchoredPosition: {x: -1.1583252, y: 18}
+  m_AnchoredPosition: {x: -1.1584473, y: 18}
   m_SizeDelta: {x: 455.62, y: 71.7113}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1065524152
@@ -42542,7 +42542,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.16600001}
   m_AnchorMax: {x: 0.5, y: 0.16600001}
-  m_AnchoredPosition: {x: 3.8997993, y: 31.32782}
+  m_AnchoredPosition: {x: 3.8997993, y: 31.32788}
   m_SizeDelta: {x: 1136.2, y: 214.8851}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1349458491
@@ -43233,7 +43233,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Usada para atacar inimigos
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -44483,6 +44483,8 @@ MonoBehaviour:
   ReceitaSelecionadaPanel: {fileID: 1618394648}
   ContentHolder: {fileID: 640479270}
   ItemReceitaPrefab: {fileID: 732303584831511227, guid: 61c1991e8a414414d902d8150098a4fb, type: 3}
+  TextoBotaoFabricar: {fileID: 340794077}
+  BtnFabricar: {fileID: 1771937499}
 --- !u!1001 &1585174618
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44763,7 +44765,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 463.724, y: 2.2321167}
+  m_AnchoredPosition: {x: 463.72412, y: 2.2319336}
   m_SizeDelta: {x: -1198.874, y: -214.6152}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1618394650
@@ -46716,10 +46718,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 856d5aa8f181aee4b9b543cbd6c9a915, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0

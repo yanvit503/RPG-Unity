@@ -16,6 +16,11 @@ public static class CraftingManager
 
             if (qntInventario.HasValue && qntInventario >= ingrediente.QuantidadeNecessaria)
                 receitaCompleta = true;
+            else
+            { 
+                receitaCompleta = false;
+                break;
+            }
         }
 
         return receitaCompleta;

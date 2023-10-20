@@ -18,7 +18,7 @@ public class ArrastaItemInventario : MonoBehaviour
                 if (!InventarioUIManager.Instance.ArrastandoMetade)
                     InventarioUIManager.Instance.SlotAnterior.RemoveItem();
                 InventarioUIManager.Instance.ArrastandoItem = false;
-                Inventario.Instance.AdicionaNoSlot(slot, InventarioUIManager.Instance.ItemArrastando,"arrastando");
+                Inventario.Instance.AdicionaNoSlot(slot, InventarioUIManager.Instance.ItemArrastando);
                 imagemArrastando.gameObject.SetActive(InventarioUIManager.Instance.ArrastandoItem);
                 InventarioUIManager.Instance.SlotAnterior.ImageHolder.color = new Color(1, 1, 1, 1);
 
@@ -31,7 +31,7 @@ public class ArrastaItemInventario : MonoBehaviour
                     InventarioUIManager.Instance.SlotAnterior.RemoveItem();
                 //InventarioUIManager.Instance.SlotAnterior.ImageHolder.sprite = InventarioUIManager.Instance.SlotAnterior.SpriteInicial;
 
-                Inventario.Instance.AdicionaNoSlot(slot, InventarioUIManager.Instance.ItemArrastando, "arrastando");
+                Inventario.Instance.AdicionaNoSlot(slot, InventarioUIManager.Instance.ItemArrastando);
 
                 InventarioUIManager.Instance.ArrastandoItem = true;
                 InventarioUIManager.Instance.ItemArrastando = itemAnterior;
@@ -44,7 +44,7 @@ public class ArrastaItemInventario : MonoBehaviour
                 if (!InventarioUIManager.Instance.ArrastandoMetade)
                     InventarioUIManager.Instance.SlotAnterior.RemoveItem();
                 InventarioUIManager.Instance.ArrastandoItem = false;
-                Inventario.Instance.AdicionaNoSlot(slot, InventarioUIManager.Instance.ItemArrastando, "arrastando");
+                Inventario.Instance.AdicionaNoSlot(slot, InventarioUIManager.Instance.ItemArrastando);
                 imagemArrastando.gameObject.SetActive(InventarioUIManager.Instance.ArrastandoItem);
                 InventarioUIManager.Instance.SlotAnterior.ImageHolder.color = new Color(1, 1, 1, 1);
             }
@@ -107,7 +107,7 @@ public class ArrastaItemInventario : MonoBehaviour
         {
             InventarioUIManager.Instance.SlotAnterior.RemoveItem();
             InventarioUIManager.Instance.ArrastandoItem = false;
-            Inventario.Instance.AdicionaNoSlot(InventarioUIManager.Instance.SlotAnterior, InventarioUIManager.Instance.ItemArrastando, "arrastando");
+            Inventario.Instance.AdicionaNoSlot(InventarioUIManager.Instance.SlotAnterior, InventarioUIManager.Instance.ItemArrastando);
             imagemArrastando.gameObject.SetActive(InventarioUIManager.Instance.ArrastandoItem);
         }
     }
