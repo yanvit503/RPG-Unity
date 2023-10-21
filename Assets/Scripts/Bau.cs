@@ -13,7 +13,10 @@ public class Bau : Interagivel
     
     [SerializeField]
     GameObject BauUIHolder;
- 
+
+    //[HideInInspector]
+    public Dictionary<int,Item> items = new Dictionary<int,Item>();
+
     void Start()
     {
         InventarioBau = GetComponent<InventarioBau>();

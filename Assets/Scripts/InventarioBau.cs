@@ -17,8 +17,6 @@ public class InventarioBau : MonoBehaviour
     [SerializeField]
     public Image imagemArrastando;
 
-    AudioSource audioSource;
-
     public static Bau BauAtual;
 
     private void Awake()
@@ -27,7 +25,6 @@ public class InventarioBau : MonoBehaviour
 
     void Start()
     {
-        audioSource = Player.instance.GetComponent<AudioSource>();
         Cursor.visible = true;
     }
 
@@ -43,7 +40,32 @@ public class InventarioBau : MonoBehaviour
                 slots.Add(child.GetComponent<SlotInventario>());
         }
 
+        foreach(var item in BauAtual.items)
+        {
+            slots[item.Key].Item = item.Value;
+            slots[item.Key].AtualizaSlot();
+        }
+
+        Slots = slots;
         return slots;
+    }
+
+    //limpa o conteudo anterior e salva o novo
+    public void SalvaItemsBau()
+    {
+        BauAtual.items = new Dictionary<int, Item>();
+        int i = 0;
+
+        Slots.ToList().ForEach(x => {
+
+            if(x.Item != null)
+            {
+                x.gameObject.transform.parent = BauAtual.transform;// coloca o item dentro do transform do báu
+                BauAtual.items.Add(i, x.Item);
+            }
+
+            i++;
+        });
     }
 
     public void AdicionarItem(Item item)
@@ -82,25 +104,19 @@ public class InventarioBau : MonoBehaviour
 
     }
 
-    public void AdicionaNoSlot(SlotInventario slot, Item item, bool tocaSom = false,bool notifica = false)
+    public void AdicionaNoSlot(SlotInventario slot, Item item)
     {
         slot.Ocupado = true;
         slot.ImageHolder.sprite = item.ItemSO.Icone;
-
-        string qntStr = "";
 
         int qnt = 0;
         if (item.ItemSO.Estacavel)
         {
             var qntTotal = QuantiadeTotalItem(item);
-            if (qntTotal > 0 && slot.Item != null)
-            {
+            if (qntTotal > 0 && slot.Item != null)            
                 qnt = slot.Item.Soma(item.GetQuantidade());
-                qntStr = qntTotal > 0 ? $"+{item.GetQuantidade()}({qntTotal + item.GetQuantidade()})" : $"+{item.GetQuantidade()}";
-            }
             else
             {
-                qntStr = $"+{item.GetQuantidade()}";
                 slot.TextoQuantidade.text = qnt.ToString();
                 qnt = item.GetQuantidade();
             }
@@ -121,10 +137,6 @@ public class InventarioBau : MonoBehaviour
         slot.Item = item;
         slot.Item.AtualizaQuantidade(qnt);
 
-        if(tocaSom) audioSource.PlayOneShot(somPegarItem);
-
-        if(notifica) NotificacaoInventarioManager.Instancia.NotificacaoPegarItem(item.ItemSO.Nome, qntStr);
-
         slot.AtualizaSlot();
     }
 
@@ -138,77 +150,5 @@ public class InventarioBau : MonoBehaviour
         }
 
         return retorno;
-    }
-
-    public List<Item> GetItem(Item item)
-    {
-        try
-        {
-            return Slots.Where(x => x.Item != null && x.Item.Equals(item)).Select(x => x.Item).ToList();
-        }
-        catch
-        {
-            return new List<Item>();
-        }
-    }
-
-    public List<Item> GetItemBySO(ItemScriptableObj item)
-    {
-        List<Item> items = new List<Item>();
-
-        try
-        {
-            foreach (Item i in Slots.Where(x => x.Item != null && x.Item.ItemSO.Nome.Equals(item.Nome)).Select(x => x.Item))
-            {
-                items.Add(i);
-            }
-
-            return items;
-        }
-        catch
-        {
-            return items;
-        }
-    }
-
-    public int RemoveQuantidade(ItemScriptableObj item, int quantidade)
-    {
-        int quantidadeRemovida = 0;
-
-        try
-        {
-            foreach (SlotInventario slot in Slots.Where(x => x.Item != null && x.Item.ItemSO.Nome.Equals(item.Nome)))
-            {
-                Item i = slot.Item;
-
-                if (quantidadeRemovida < quantidade)
-                {
-                    var qntItem = i.GetQuantidade();
-                    var qntRemovidaAgora = i.Subtrai(quantidade);
-                    
-                    quantidadeRemovida += qntRemovidaAgora;
-
-                    if (qntRemovidaAgora >= qntItem)
-                        slot.Item = null;
-                }
-
-                slot.AtualizaSlot();
-            }
-
-            return quantidadeRemovida;
-        }
-        catch
-        {
-            return quantidadeRemovida;
-        }
-    }
-
-    public Item InstanciaItem(ReceitaScriptableObject receita)
-    {
-        // Crie um novo objeto vazio
-        GameObject novoObjeto = new GameObject(receita.Saida.Nome);
-
-        novoObjeto.AddComponent<Item>().ItemSO = receita.Saida;
-        return Instantiate(novoObjeto).GetComponent<Item>();
     }
 }

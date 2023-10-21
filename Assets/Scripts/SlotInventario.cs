@@ -1,7 +1,6 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 public class SlotInventario : MonoBehaviour
 {
@@ -33,6 +32,7 @@ public class SlotInventario : MonoBehaviour
     {
         if (Item != null)
         {
+            ImageHolder.sprite = Item.ItemSO.Icone;
             TextoQuantidade.text = Item.GetQuantidade().ToString();
         }
         else

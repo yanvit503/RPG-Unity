@@ -34,6 +34,10 @@ public class UIManager : MonoBehaviour
                 FechaBau();
             }
         }
+
+        if(bauAberto)
+            BauPanel.transform.GetChild(0).gameObject.SetActive(true);
+
     }
 
     public void AbrirBau()
@@ -46,8 +50,7 @@ public class UIManager : MonoBehaviour
         bauAberto = true;
 
         AtualizaUI();
-        BauPanel.transform.GetChild(0).GetComponent<InventarioBau>().CarregaSlots();
-        BauPanel.transform.GetChild(0).gameObject.SetActive(true);
+        BauPanel.transform.GetChild(0).GetComponent<InventarioBau>().CarregaSlots();        
     }
     
     public void FechaBau()
@@ -58,6 +61,8 @@ public class UIManager : MonoBehaviour
         inventarioAberto = false;
         craftingAberto = false;
         bauAberto = false;
+
+        BauPanel.transform.GetChild(0).GetComponent<InventarioBau>().SalvaItemsBau();
 
         Destroy(BauPanel.transform.GetChild(0).gameObject);
 

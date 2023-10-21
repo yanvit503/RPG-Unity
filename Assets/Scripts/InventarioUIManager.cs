@@ -25,7 +25,6 @@ public class InventarioUIManager : MonoBehaviour
 
     public void AbrirInventario(bool abrir)
     {
-
         Inventario.Instance.gameObject.SetActive(abrir);
     }
 
