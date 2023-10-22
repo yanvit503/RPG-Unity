@@ -50,7 +50,7 @@ public class UIManager : MonoBehaviour
         bauAberto = true;
 
         AtualizaUI();
-        BauPanel.transform.GetChild(0).GetComponent<InventarioBau>().CarregaSlots();        
+        BauPanel.transform.GetChild(0).GetComponent<InventarioBau>().CarregaSlots(InventarioBau.BauAtual);        
     }
     
     public void FechaBau()
@@ -63,6 +63,7 @@ public class UIManager : MonoBehaviour
         bauAberto = false;
 
         BauPanel.transform.GetChild(0).GetComponent<InventarioBau>().SalvaItemsBau();
+        InventarioBau.BauAtual.FecharBau();
 
         Destroy(BauPanel.transform.GetChild(0).gameObject);
 

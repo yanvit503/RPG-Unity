@@ -6,31 +6,26 @@ using UnityEngine.UI;
 
 public class InventarioBau : MonoBehaviour
 {
-    [SerializeField]
     GameObject SlotHolder;
-
-    [SerializeField]
-    AudioClip somPegarItem;
 
     List<SlotInventario> Slots;
 
-    [SerializeField]
+    [HideInInspector]
     public Image imagemArrastando;
 
+    [HideInInspector]
     public static Bau BauAtual;
-
-    private void Awake()
-    {
-    }
 
     void Start()
     {
         Cursor.visible = true;
     }
 
-    public List<SlotInventario> CarregaSlots()
+    public List<SlotInventario> CarregaSlots(Bau bau)
     {
         List<SlotInventario> slots = new List<SlotInventario>();
+
+        SlotHolder = bau.BauUIHolder.transform.GetChild(0).transform.GetChild(0).gameObject;
 
         for (int i = 0; i < SlotHolder.transform.childCount; i++)
         {
@@ -60,7 +55,7 @@ public class InventarioBau : MonoBehaviour
 
             if(x.Item != null)
             {
-                x.gameObject.transform.parent = BauAtual.transform;// coloca o item dentro do transform do báu
+                x.gameObject.transform.SetParent(BauAtual.transform);// coloca o item dentro do transform do báu
                 BauAtual.items.Add(i, x.Item);
             }
 
